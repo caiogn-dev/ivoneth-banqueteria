@@ -1,77 +1,53 @@
+// src/components/Header.tsx
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone } from "lucide-react";
+import { useState } from "react";
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const closeMenu = () => setIsMenuOpen(false);
-
+export default function Header() {
+  const [open, setOpen] = useState(false);
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
+    <header className="fixed top-0 w-full bg-white/90 backdrop-blur border-b z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <Link href="#hero" aria-label="Ir para o topo" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-rose-700 to-red-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">I</span>
+        <div className="flex items-center justify-between py-4">
+          <Link href="#hero" className="flex items-center gap-2" aria-label="Ir para o topo">
+            <div className="size-10 rounded-lg overflow-hidden">
+              <Image src="/icon.png" alt="Ivoneth Banqueteria" width={40} height={40} className="object-contain size-10" priority />
             </div>
-            <div>
-              <span className="text-xl font-bold text-gray-900 block">Ivoneth Banqueteria</span>
-              <span className="text-xs text-gray-600">ISO 9001 Certificado</span>
-            </div>
+            <span className="text-xl font-bold text-gray-900">Ivoneth Banqueteria</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="#portfolio" className="nav-link">Portfólio</Link>
-            <Link href="#services" className="nav-link">Serviços</Link>
-            <Link href="#process" className="nav-link">Como Funciona</Link>
-            <Link href="#faq" className="nav-link">FAQ</Link>
+          <nav className="hidden md:flex items-center gap-8">
+            <Link href="/" className="nav-link">Inicio</Link>
+            <Link href="/galeria" className="nav-link">Galeria</Link>
+            <Link href="/contato" className="nav-link">Contato</Link>
           </nav>
 
-          {/* Contact & CTA */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600" aria-label="Telefone para contato">
-              <Phone size={16} />
-              <span>(63) 3217-4500</span>
+          <div className="hidden lg:flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-gray-600" aria-label="Telefone para contato">
+              <Phone size={16} /><span>(63) 3217-4500</span>
             </div>
-            {/* use Link estilizado como botão (evita <a> dentro de <button>) */}
-            <Link href="#cta" className="btn btn-primary" aria-label="Solicitar orçamento em 24 horas">
-              Orçamento 24h
-            </Link>
+            <Link href="#cta" className="btn btn-primary">Orçamento 24h</Link>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden"
-            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <button className="md:hidden" onClick={() => setOpen(!open)} aria-label={open ? "Fechar menu" : "Abrir menu"}>
+            {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <div className="flex flex-col space-y-4">
-              <Link href="#portfolio" onClick={closeMenu} className="nav-link">Portfólio</Link>
-              <Link href="#services" onClick={closeMenu} className="nav-link">Serviços</Link>
-              <Link href="#process" onClick={closeMenu} className="nav-link">Como Funciona</Link>
-              <Link href="#faq" onClick={closeMenu} className="nav-link">FAQ</Link>
-
-              <div className="pt-4 border-t border-gray-100">
-                <Link href="#cta" onClick={closeMenu} className="w-full btn btn-primary text-center">
-                  Solicitar Orçamento
-                </Link>
-              </div>
+        {open && (
+          <div className="md:hidden border-t py-4">
+            <div className="flex flex-col gap-4">
+              <Link href="#servicos" onClick={() => setOpen(false)} className="nav-link">Serviços</Link>
+              <Link href="#como-funciona" onClick={() => setOpen(false)} className="nav-link">Como funciona</Link>
+              <Link href="/galeria" onClick={() => setOpen(false)} className="nav-link">Galeria</Link>
+              <Link href="/contato" onClick={() => setOpen(false)} className="nav-link">Contato</Link>
+              <Link href="#cta" onClick={() => setOpen(false)} className="btn btn-primary text-center">Solicitar Orçamento</Link>
             </div>
           </div>
         )}
       </div>
     </header>
   );
-};
-export default Header;
+}
