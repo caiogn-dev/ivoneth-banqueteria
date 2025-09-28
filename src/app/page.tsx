@@ -11,17 +11,22 @@ import Footer from "./components/Footer";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <Hero />
-      <ValueProposition />
-      <Portfolio />
-      <Process />
-      <Gallery />
-      <Testimonials />
-      <FAQ />
-      <FinalCTA />
-      <Footer />
-    </div>
+    <>
+      {/* Banner temporário pra testar o Tailwind */}
+      <div className="p-3 bg-rose-700 text-white">Tailwind ON</div>
+
+      <div className="min-h-screen bg-white">
+        <Header />
+        <Hero />
+        <ValueProposition />
+        <Portfolio />
+        <Process />
+        <Gallery />
+        <Testimonials />
+        <FAQ />
+        <FinalCTA />
+        <Footer />
+      </div>
+    </>
   );
 }
