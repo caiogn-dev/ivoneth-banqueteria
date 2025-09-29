@@ -1,6 +1,6 @@
 import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
-import "@/app/globals.css";
+import "./globals.css";
 
 // ✅ Ajuste para seu domínio real
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
