@@ -1,32 +1,33 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import ValueProposition from "./components/ValueProposition";
-import Portfolio from "./components/Portfolio";
-import Process from "./components/Process";
-import Gallery from "./components/Gallery";
-import Testimonials from "./components/Testimonials";
+import Services from "./components/Services";
+import Differentials from "./components/Differentials";
+import Proofs from "./components/Proofs";
+import Chef from "./components/Chef";
 import FAQ from "./components/FAQ";
+import LeadForm from "./components/LeadForm";
 import FinalCTA from "./components/FinalCTA";
 import Footer from "./components/Footer";
+import ComoFunciona from "./components/ComoFunciona";
+import Menu from "./components/Menu";
 
-export default function Page() {
+export default function Home() {
   return (
     <>
-      {/* Banner temporário pra testar o Tailwind */}
-      <div className="p-3 bg-rose-700 text-white">Tailwind ON</div>
-
-      <div className="min-h-screen bg-white">
-        <Header />
+      <Header />
+      <main>
         <Hero />
-        <ValueProposition />
-        <Portfolio />
-        <Process />
-        <Gallery />
-        <Testimonials />
+        <ComoFunciona />
+        <Services />
+        <Menu />
+        <Differentials />
+        <Proofs />
+        <Chef />
         <FAQ />
+        <LeadForm />
         <FinalCTA />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </>
   );
 }

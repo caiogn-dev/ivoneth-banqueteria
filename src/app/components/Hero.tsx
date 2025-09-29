@@ -1,95 +1,78 @@
-"use client";
-import React from "react";
 import Link from "next/link";
-import { Star, Award, Users, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { Dancing_Script } from "next/font/google";
 
-const Hero = () => {
-  const handleWhatsApp = () => {
-    const message = "Olá! Gostaria de solicitar um orçamento para meu evento social. Pode me ajudar?";
-    window.open(`https://wa.me/5563932174500?text=${encodeURIComponent(message)}`, "_blank");
-  };
+const script = Dancing_Script({ subsets: ["latin"], weight: ["700"], display: "swap" });
 
+export default function Hero() {
   return (
-    <section id="hero" className="pt-20 pb-12 bg-gradient-to-br from-rose-50 via-white to-red-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left */}
-          <div className="space-y-8">
-            <div className="inline-flex items-center space-x-2 bg-white rounded-full px-4 py-2 shadow-sm border border-rose-100">
-              <Award className="text-rose-700" size={20} />
-              <span className="text-sm font-semibold text-gray-800">Certificação ISO 9001</span>
-            </div>
+    <section
+      id="hero"
+      className="relative w-screen"
+      // dá espaço exato do header + área segura (iPhone notch)
+      style={{ paddingTop: "calc(var(--header-h) + env(safe-area-inset-top, 0px))" }}
+      aria-label="Seção inicial"
+    >
+      {/* Imagem full-bleed */}
+      <div className="absolute inset-0">
+        <Image
+          src="/hero.jpg"  // /public/hero.jpg
+          alt=""
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+          quality={70}
+        />
+        <div className="absolute inset-0 bg-black/50 sm:bg-black/40" aria-hidden="true" />
+      </div>
 
-            <div className="space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                Casamentos que encantam
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-red-600"> olhos e paladar</span>
-              </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Equipe certificada, menus autorais e o maior acervo de louças premium do Tocantins para o seu grande dia.
-              </p>
-            </div>
+      {/* Wrapper com altura = (tela - header) para centralizar de verdade */}
+      <div
+        className="relative z-10 flex items-center justify-center px-4 sm:px-6"
+        style={{
+          minHeight:
+            "calc(100svh - var(--header-h) - env(safe-area-inset-top, 0px))",
+        }}
+      >
+        <div className="w-full max-w-3xl text-center">
+          <h1 className="text-white leading-tight tracking-tight">
+            <span
+              className={`${script.className} block font-bold`}
+              style={{ fontSize: "clamp(2.2rem, 6vw, 4.5rem)" }}
+            >
+              Buffet Premium
+            </span>
+            <span
+              className="block font-extrabold mt-2"
+              style={{ fontSize: "clamp(1.4rem, 4.5vw, 2.5rem)" }}
+            >
+              para eventos corporativos e sociais
+            </span>
+          </h1>
 
-            <div className="flex flex-wrap gap-6">
-              <div className="flex items-center space-x-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="text-yellow-400 fill-current" size={16} />)}
-                </div>
-                <span className="text-sm font-semibold text-gray-700">4.9 de 5 estrelas</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Users className="text-rose-700" size={16} />
-                <span className="text-sm font-semibold text-gray-700">+1.200 eventos</span>
-              </div>
-            </div>
+          <p className="mt-5 text-white/85"
+             style={{ fontSize: "clamp(0.95rem, 2.4vw, 1.125rem)" }}>
+            Equipe completa, montagem no local e cardápio sob medida — com pontualidade garantida.
+          </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="#cta" className="btn btn-primary">Solicitar Proposta Agora</Link>
-              <button onClick={handleWhatsApp} className="btn btn-outline" aria-label="Abrir WhatsApp">
-                <MessageCircle size={20} />
-                <span>WhatsApp Direto</span>
-              </button>
-            </div>
-
-            <div className="flex items-center space-x-6 pt-6 border-t border-gray-200">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">98%</div>
-                <div className="text-sm text-gray-600">Satisfação</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">24h</div>
-                <div className="text-sm text-gray-600">Resposta</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">15+</div>
-                <div className="text-sm text-gray-600">Anos</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right */}
-          <div className="relative">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-rose-100 to-red-100">
-              <Image
-                src="/images/hero.jpg"
-                alt="Mesa de casamento elegante com louças premium"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-                priority
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJy8+"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg">
-                <div className="text-sm font-semibold text-gray-900">Maior acervo</div>
-                <div className="text-xs text-gray-600">de louças do TO</div>
-              </div>
-            </div>
+          {/* CTAs empilhados e centrados */}
+          <div className="mt-8 flex flex-col items-center gap-3">
+            <Link href="#form" className="btn btn-primary">
+              Solicitar orçamento
+            </Link>
+            <Link
+              href="#services"
+              className="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold
+                         bg-white text-[color:var(--brand-ink)] border border-white/0 hover:bg-white/90
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{ boxShadow: "0 0 0 0 var(--ring)" }}
+            >
+              Ver opções de cardápio
+            </Link>
           </div>
         </div>
       </div>
     </section>
   );
-};
-export default Hero;
+}
