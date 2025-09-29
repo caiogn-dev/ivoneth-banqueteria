@@ -1,7 +1,9 @@
-// src/components/ComoFuncionaFlow.tsx
-import Image from "next/image";
+"use client";
 
-export default function ComoFuncionaFlow() {
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+
+export default function ComoFunciona() {
   const items = [
     {
       icon: "/flow/consulta.svg",
@@ -26,8 +28,7 @@ export default function ComoFuncionaFlow() {
   ];
 
   return (
-    // trocado para fundo opaco: de bg-rose-50/40 → bg-rose-50
-    <section id="process" className="section section-anchor bg-rose-50">
+    <section id="process" className="section section-anchor bg-rose-50/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <h2 className="text-center text-2xl sm:text-3xl font-bold">Como funciona?</h2>
 
@@ -44,30 +45,12 @@ export default function ComoFuncionaFlow() {
               </div>
             ))}
           </div>
-
-          {/* setas horizontais */}
-          <div className="hidden sm:block pointer-events-none absolute inset-0">
-            <svg
-              viewBox="0 0 24 24"
-              className="absolute left-1/2 top-[22%] -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-gray-800/70"
-              fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-            <svg
-              viewBox="0 0 24 24"
-              className="absolute left-1/2 bottom-[22%] -translate-x-1/2 translate-y-1/2 w-8 h-8 text-gray-800/70"
-              fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 5l7 7-7 7" />
-            </svg>
-          </div>
         </div>
 
         <div className="mt-10 flex justify-center">
-          <a href="#form" className="btn btn-primary">Solicitar orçamento personalizado</a>
+          <Button variant="brand" size="lg" asChild>
+            <a href="#form">Solicitar orçamento personalizado</a>
+          </Button>
         </div>
       </div>
     </section>
