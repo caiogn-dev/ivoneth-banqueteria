@@ -1,26 +1,189 @@
+/* Tailwind base (compatível v3 e v4) */
 @import "tailwindcss";
 
+/* ===========================
+   Tokens de marca / tema
+   =========================== */
+:root{
+  --brand-from:  #b91c1c;   /* red-700 */
+  --brand-to:    #dc2626;   /* red-600 */
+  --brand-ink:   #7f1d1d;   /* red-800 */
+
+  --ink:         #0f172a;   /* slate-900 */
+  --muted:       #64748b;   /* slate-500 */
+  --border:      #e5e7eb;   /* gray-200 */
+  --ring:        #fecaca;   /* red-200 */
+}
+
+:root.dark{
+  --ink:   #e5e7eb;
+  --muted: #94a3b8;
+  --border:#1f2937;
+  --ring:  #7f1d1d;
+}
+
+/* ===========================
+   Botões
+   =========================== */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-300
+         focus:outline-none;
+}
+
+.btn:focus-visible {
+  /* em vez de focus:ring-[color:...], usamos box-shadow custom */
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--brand-from), var(--brand-to));
+  @apply text-white px-6 py-3 hover:shadow-xl hover:-translate-y-0.5;
+}
+
+.btn-outline {
+  @apply border-2 px-6 py-3;
+  color: var(--brand-ink);
+  border-color: var(--brand-ink);
+}
+
+.btn-ghost {
+  @apply border px-6 py-3;
+  color: var(--ink);
+  border-color: var(--border);
+}
+.btn-sm { @apply px-3 py-2 text-sm; }
+.btn-lg { @apply px-7 py-4 text-base; }
+
+/* ===========================
+   Links de navegação
+   =========================== */
+.nav-link {
+  @apply text-gray-700 transition-colors;
+}
+.nav-link:hover {
+  color: var(--brand-ink);
+}
+.nav-link[aria-current="page"] {
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+
+/* ===========================
+   Inputs / Textareas
+   =========================== */
+.input {
+  @apply w-full rounded-xl border px-4 py-3 bg-white;
+  color: var(--ink);
+  border-color: var(--border);
+}
+.input::placeholder { @apply text-gray-400; }
+.input:focus {
+  outline: none;
+  /* em vez de focus:ring-[color:...], usamos box-shadow + border */
+  box-shadow: 0 0 0 2px var(--ring);
+  border-color: var(--ring);
+}
+.textarea { @apply min-h-32; }
+
+/* ===========================
+   Cartões “glassy”
+   =========================== */
+.card {
+  @apply bg-white/90 backdrop-blur-sm rounded-2xl border shadow-sm;
+  border-color: #f3f4f6; /* neutral-100 */
+}
+.card-hover { @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-300; }
+
+/* Badges */
+.badge {
+  @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm text-gray-700;
+  border-color: var(--border);
+}
+.badge-brand {
+  color: white;
+  background: linear-gradient(to right, var(--brand-from), var(--brand-to));
+  border: 0;
+}
+
+/* ===========================
+   Divisor e seções
+   =========================== */
+.section-divider {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+  height: 1px;
+}
+
+.section { @apply py-16; }
+.section-xs { @apply py-8; }
+.section-lg { @apply py-24; }
+
+
+/* Altura do header (aprox.) para compensar o fixo */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --header-h: 64px;        /* mobile */
+  --hero-gap: 12px;        /* respiro extra no topo */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@media (min-width: 768px) {
+  :root { --header-h: 72px; } /* md+ */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Utilitário p/ seções ancoradas ficarem abaixo do header fixo */
+.section-anchor {
+  scroll-margin-top: calc(var(--header-h) + 12px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@media (prefers-reduced-motion: reduce) {
+  #services video { display: none; }
+}
+
+/* Parallax (pinned) – confinado à seção e sem z-index negativo */
+.parallax-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 0; /* <<< não use negativo aqui */
+}
+
+/* Camadas dentro do parallax */
+.parallax-layer { position: absolute; inset: 0; z-index: 0; }
+.parallax-content { position: absolute; inset: 0; z-index: 10; }
+
+/* Seções com parallax local (vídeo “fixo” apenas dentro da seção) */
+.section-isolate { position: relative; isolation: isolate; z-index: 0; }
+
+/* Wrapper sticky que “pina” o fundo dentro da seção */
+.parallax-wrap { position: sticky; top: 0; height: 70vh; z-index: 0; }
+/* Ajuste a altura por seção via style={{ height: '65vh' }} se quiser */
+
+/* Camadas do fundo e do conteúdo sobre o fundo */
+.parallax-layer { position: absolute; inset: 0; z-index: 0; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+.parallax-vignette { position: absolute; inset-inline: 0; bottom: 0; height: 28vh;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.35));
+}
+/* Seção opaca que SEMPRE cobre o que está atrás */
+.section-solid { position: relative; z-index: 30; background: #fff; isolation: isolate; }
+
+/* Cards do FAQ/Provas/etcs opacos */
+.card-solid { background: #fff !important; }
+
+/* Para imagens como background CSS */
+.bg-fixed { background-attachment: fixed; }
+body { background: #ffffff; }
+
+.aspect-square { aspect-ratio: 1 / 1; }
+
+/* escurece o fundo do <dialog> */
+dialog.modal-card::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* o próprio dialog não deve ocupar a tela toda */
+dialog.modal-card {
+  border: none;
+  padding: 0;
+  background: transparent;   /* sem caixa branca grande */
+  max-width: none;            /* deixa o conteúdo definir o tamanho */
 }
