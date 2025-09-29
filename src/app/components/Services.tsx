@@ -1,48 +1,94 @@
-import React from "react";
-import { Heart, GraduationCap, Sparkles, Check } from "lucide-react";
+// src/components/Services.tsx
+import {
+  Coffee,
+  BriefcaseBusiness,
+  Building2,
+  Salad,
+  Martini,
+  UtensilsCrossed,
+} from "lucide-react";
 
-const Services = () => {
-  const services = [
-    { icon: <Heart className="text-red-600" size={28} />, title: "Casamentos", description: "Cerimônias e recepções inesquecíveis com todo cuidado que seu grande dia merece.", features: ["Menu personalizado", "Coordenação completa", "Louças premium", "Equipe especializada"] },
-    { icon: <Sparkles className="text-rose-600" size={28} />, title: "Debutantes", description: "Festa de 15 anos dos sonhos com elegância e sofisticação únicos.", features: ["Mesa temática", "Doces artísticos", "Montagem instagramável", "Ilhas ao vivo"] },
-    { icon: <GraduationCap className="text-red-600" size={28} />, title: "Formaturas", description: "Celebre essa conquista com um evento à altura do momento.", features: ["Banquete completo", "Cerimônia de brinde", "Cardápio sofisticado", "Organização impecável"] }
+export default function Services() {
+  const items = [
+    { icon: Coffee, label1: "Coffee", label2: "break" },
+    { icon: BriefcaseBusiness, label1: "Feiras de", label2: "negócios" },
+    { icon: Building2, label1: "Eventos", label2: "corporativos" },
+    { icon: UtensilsCrossed, label1: "Buffet", label2: "" },
+    { icon: Salad, label1: "Brunch", label2: "" },
+    { icon: Martini, label1: "Coqueteis", label2: "" },
   ];
 
   return (
-    <section id="services" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-red-600">Serviços</span>
-          </h2>
-          <p className="text-xl text-gray-600 leading-relaxed">Especialistas em eventos sociais: casamentos, debutantes, formaturas e aniversários elegantes.</p>
-        </div>
+    // apenas tornei a section um container relativo + isolate para segurar o bg
+    <section id="services" className="relative isolate w-full section-anchor">
+      {/* === VÍDEO DE FUNDO RESTRITO À SEÇÃO (sem fixed global) === */}
+      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src="/services.mp4" type="video/mp4" />
+        </video>
+        {/* overlay para leitura */}
+        <div className="absolute inset-0 bg-black/50 sm:bg-black/55" />
+        <div
+          className="absolute inset-x-0 bottom-0 h-24 sm:h-28 pointer-events-none"
+          style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.35))" }}
+        />
+      </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((s, i) => (
-            <div key={i} className="group p-6 rounded-xl border border-gray-100 hover:border-rose-200 hover:shadow-lg transition-all duration-300 bg-white">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all duration-300">
-                    {s.icon}
+      {/* === SEÇÃO Services (conteúdo) — INALTERADO === */}
+      <div className="relative z-10">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12 text-center">
+          <div className="py-16 sm:py-24">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white">
+              Conheça nossos Serviços
+            </h2>
+
+            <p className="mt-3 sm:mt-4 text-white/90 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
+              Atendemos eventos de todos os portes:{" "}
+              <span className="font-semibold text-[color:var(--brand-from)]">stands</span> em feiras de negócios,{" "}
+              <span className="font-semibold text-[color:var(--brand-from)]">congressos</span> e{" "}
+              <span className="font-semibold text-[color:var(--brand-from)]">confraternizações</span> empresariais.
+            </p>
+
+            <div className="mt-10 sm:mt-12 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+              {items.map(({ icon: Icon, label1, label2 }) => (
+                <div
+                  key={`${label1}-${label2 || "single"}`}
+                  className="w-full max-w-[16rem] mx-auto flex flex-col items-center justify-center text-white h-28 sm:h-32"
+                >
+                  <div className="grid place-items-center rounded-xl border border-white/25 bg-white/5 backdrop-blur-sm size-12 sm:size-14">
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">{s.title}</h3>
-                </div>
-                <p className="text-gray-600 leading-relaxed">{s.description}</p>
-                <div className="space-y-2">
-                  {s.features.map((f, fi) => (
-                    <div key={fi} className="flex items-center space-x-2">
-                      <Check className="text-green-600 flex-shrink-0" size={16} />
-                      <span className="text-sm text-gray-700">{f}</span>
+                  <div className="mt-3 leading-tight">
+                    <div className="text-lg sm:text-xl font-extrabold">{label1}</div>
+                    <div className={`text-lg sm:text-xl font-extrabold ${label2 ? "" : "opacity-0 select-none"}`}>
+                      {label2 || "\u00A0"}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+
+            <div
+              className="mt-10 sm:mt-12 grid place-items-center"
+              style={{ paddingBottom: "max(4rem, env(safe-area-inset-bottom))" }}
+            >
+              <a
+                href="#form"
+                className="btn btn-primary !rounded-full px-9 sm:px-10 py-4 sm:py-4.5 leading-none shadow-xl"
+              >
+                Solicitar orçamento
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-export default Services;
+}
