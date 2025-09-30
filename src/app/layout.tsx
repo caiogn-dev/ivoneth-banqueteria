@@ -2,6 +2,7 @@ import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
 import "./globals.css";
 import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
+import GoogleTagManager from "@/components/core/GoogleTagManager";
 
 // ✅ Ajuste para seu domínio real
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
@@ -76,14 +77,19 @@ export const metadata: Metadata = {
   publisher: "Ivoneth Banqueteria",
 };
 
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-     <body className="min-h-screen bg-white scroll-smooth">
+      {/* O <Script> do Next.js é inteligente. Mesmo que o chamemos no body,
+        ele moverá o script principal para o <head> da página, como o GTM exige.
+      */}
+      <body>
+        <GoogleTagManager /> {/* ✅ 2. Adicione o componente aqui */}
         <JsonLd />
         {children}
-        <FloatingWhatsappButton /> {/* ✅ Adicione o botão aqui */}
-     </body>
+        <FloatingWhatsappButton />
+      </body>
     </html>
   );
 }
