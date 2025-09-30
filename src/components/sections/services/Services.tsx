@@ -1,88 +1,94 @@
 // src/components/sections/services/Services.tsx
 "use client";
 
-import {
-  Coffee,
-  BriefcaseBusiness,
-  Building2,
-  Salad,
-  Martini,
-  UtensilsCrossed,
-} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Reveal from "@/components/core/Reveal";
+import { Coffee, Martini, UtensilsCrossed } from "lucide-react";
 
 export default function Services() {
   const items = [
-    { icon: Coffee, label1: "Coffee", label2: "break" },
-    { icon: BriefcaseBusiness, label1: "Feiras de", label2: "negócios" },
-    { icon: Building2, label1: "Eventos", label2: "corporativos" },
-    { icon: UtensilsCrossed, label1: "Buffet", label2: "" },
-    { icon: Salad, label1: "Brunch", label2: "" },
-    { icon: Martini, label1: "Coquetéis", label2: "" },
+    {
+      icon: <Coffee className="size-6 text-brand-ink" />,
+      title: "Coffee Break",
+      features: [
+        "Bebidas quentes e frias + estação de apoio",
+        "Mix doce/salgado (assados, frutas, minissanduíches)",
+        "Montagem, serviço e reposição contínua",
+      ],
+    },
+    {
+      icon: <Martini className="size-6 text-brand-ink" />,
+      title: "Coquetel",
+      features: [
+        "Finger foods variados e canapés",
+        "Serviço de bandeja com equipe especializada",
+        "Montagem e desmontagem completas da estrutura",
+      ],
+    },
+    {
+      icon: <UtensilsCrossed className="size-6 text-brand-ink" />,
+      title: "Almoço & Jantar",
+      features: [
+        "Prato principal com acompanhamentos",
+        "Buffet completo montado no local (inclui louças)",
+        "Equipe de serviço para garantir a organização",
+      ],
+    },
   ];
 
   return (
-    <section id="services" className="relative w-full section-anchor overflow-hidden">
-      {/* vídeo confinado à seção */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/services.mp4" type="video/mp4" />
-        </video>
-        {/* overlays para legibilidade, mantendo cores */}
-        <div className="absolute inset-0 bg-black/50 sm:bg-black/55" />
-        <div
-          className="absolute inset-x-0 bottom-0 h-24 sm:h-28"
-          style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.35))" }}
-        />
-      </div>
-
-      {/* conteúdo */}
-      <div className="relative z-10 py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12 text-center">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white">
-            Conheça nossos Serviços
+    <section id="services" className="section section-anchor bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center">
+        <Reveal>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 select-none">
+            O que podemos servir no seu evento
           </h2>
-          <p className="mt-3 sm:mt-4 text-white/90 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-            Atendemos eventos de todos os portes:{" "}
-            <span className="font-semibold text-[color:var(--brand-from)]">stands</span> em feiras de negócios,{" "}
-            <span className="font-semibold text-[color:var(--brand-from)]">congressos</span> e{" "}
-            <span className="font-semibold text-[color:var(--brand-from)]">confraternizações</span> empresariais.
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-3 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
+            Escolha o formato e nós personalizamos o cardápio para o seu público.
           </p>
+        </Reveal>
 
-          {/* grade simétrica */}
-          <div className="mt-10 sm:mt-12 grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 justify-items-center">
-            {items.map(({ icon: Icon, label1, label2 }) => (
-              <div
-                key={`${label1}-${label2 || "single"}`}
-                className="w-full max-w-[16rem] mx-auto flex flex-col items-center justify-center text-white h-28 sm:h-32"
-              >
-                <div className="grid place-items-center rounded-xl border border-white/25 bg-white/5 backdrop-blur-sm size-12 sm:size-14">
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
-                </div>
-                <div className="mt-3 leading-tight text-center">
-                  <div className="text-lg sm:text-xl font-extrabold">{label1}</div>
-                  <div className={`text-lg sm:text-xl font-extrabold ${label2 ? "" : "opacity-0 select-none"}`}>
-                    {label2 || "\u00A0"}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {items.map((item, i) => (
+            <Reveal key={item.title} delay={0.2 + i * 0.1}>
+              <Card className="text-left h-full flex flex-col">
+                <CardHeader className="flex-row items-center gap-4 space-y-0">
+                  <div className="grid place-items-center size-12 rounded-lg bg-rose-50 border select-none">
+                    {item.icon}
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                  <CardTitle className="text-xl select-none">{item.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <ul className="space-y-2 text-gray-600">
+                    {item.features.map((feat) => (
+                      <li key={feat} className="flex items-start">
+                        <span className="text-brand-from mr-2 mt-1.5 size-1.5 rounded-full bg-current" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
 
-          {/* CTA */}
-          <div className="mt-10 sm:mt-12 grid place-items-center" style={{ paddingBottom: "max(4rem, env(safe-area-inset-bottom))" }}>
-            <Button variant="brand" size="lg" asChild className="rounded-full px-9">
-              <a href="#form">Solicitar orçamento</a>
+        <Reveal delay={0.3}>
+            <p className="mt-8 text-sm text-gray-500">
+                Nota: Cardápios podem incluir opções veganas, low carb e sem glúten sob solicitação.
+            </p>
+        </Reveal>
+
+        <Reveal delay={0.4}>
+          <div className="mt-10">
+            <Button variant="brand" size="lg" asChild>
+              <a href="#menu">Ver opções de cardápio</a>
             </Button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
 import "./globals.css";
+import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
 
 // ✅ Ajuste para seu domínio real
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
      <body className="min-h-screen bg-white scroll-smooth">
         <JsonLd />
         {children}
+        <FloatingWhatsappButton /> {/* ✅ Adicione o botão aqui */}
      </body>
     </html>
   );
