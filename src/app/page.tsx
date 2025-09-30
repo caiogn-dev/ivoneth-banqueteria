@@ -22,11 +22,11 @@ export default function Home() {
       <main>
         <Hero />
         <ComoFunciona />
+        <Chef />
         <Services />
         <Menu />
         <Differentials />
         <Proofs />
-        <Chef />
         <Gallery />
         <FAQ />
         <LeadForm />
