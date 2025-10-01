@@ -29,18 +29,13 @@ export default function JsonLd() {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "120",
-      itemReviewed: {
-        "@type": "Caterer",
-        name: "Ivoneth Banqueteria",
-        url: "https://www.ivonethbanqueteria.com.br"
-      }
     },
   };
 
   return (
     <script
       type="application/ld+json"
-      // @ts-ignore
+      // @ts-expect-error // Correção para ESLint/TS
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );
