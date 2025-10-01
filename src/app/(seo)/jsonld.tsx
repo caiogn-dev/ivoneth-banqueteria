@@ -25,11 +25,15 @@ export default function JsonLd() {
       "https://www.facebook.com/seu-perfil",
       "https://www.linkedin.com/company/seu-perfil",
     ],
-    // opcional: rating agregado
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "120",
+      itemReviewed: {
+        "@type": "Caterer",
+        name: "Ivoneth Banqueteria",
+        url: "https://www.ivonethbanqueteria.com.br"
+      }
     },
   };
 
