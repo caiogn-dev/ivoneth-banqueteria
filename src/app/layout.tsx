@@ -1,6 +1,6 @@
+import "./globals.css";
 import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
-import "./globals.css";
 import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
 
 // ✅ Ajuste para seu domínio real

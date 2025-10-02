@@ -6,7 +6,7 @@ import {
   DialogClose,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog"; // Certifique-se que o caminho está correto
+} from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import {
   Carousel,
@@ -15,9 +15,9 @@ import {
   CarouselNext,
   CarouselPrevious,
   type CarouselApi,
-} from "@/components/ui/carousel"; // Certifique-se que o caminho está correto
+} from "@/components/ui/carousel";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 export type LightboxImage = { src: string; alt?: string };
 
@@ -27,8 +27,8 @@ export default function Lightbox({
   images,
   startIndex,
   title,
-  maxW = { sm: 720, md: 820 }, // Máxima largura do lightbox
-  maxHsvh = 80, // Máxima altura (80% do viewport height)
+  maxW = { sm: 720, md: 820 }, // largura máxima
+  maxHsvh = 80, // altura máx (svh)
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -42,45 +42,57 @@ export default function Lightbox({
   const [current, setCurrent] = useState(startIndex);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 1. Abre no item clicado
+  // Mantém um mapa de fallbacks por índice (necessário com next/image)
+  const [fallback, setFallback] = useState<Record<number, boolean>>({});
+
+  // Evita índices fora do range
+  const safeStart = useMemo(
+    () => Math.min(Math.max(startIndex, 0), Math.max(images.length - 1, 0)),
+    [startIndex, images.length]
+  );
+
+  // 1) Abre no item clicado
   useEffect(() => {
     if (open && api && images.length > 0) {
-      // O `scrollTo` só funciona depois que o API é inicializado, por isso está no useEffect
-      api.scrollTo(startIndex, true);
+      api.scrollTo(safeStart, true);
     }
-  }, [open, api, startIndex, images]);
+  }, [open, api, images.length, safeStart]);
 
-  // 2. Atualiza contador
+  // 2) Atualiza contador (com cleanup correto)
   useEffect(() => {
     if (!api) return;
     const onSelect = () => setCurrent(api.selectedScrollSnap());
-    api.on("select", onSelect);
-    // Inicializa o contador corretamente ao abrir o lightbox
-    setCurrent(api.selectedScrollSnap()); 
-    return () => api.off("select", onSelect);
+    api.on?.("select", onSelect);
+    // sincroniza no mount
+    setCurrent(api.selectedScrollSnap());
+
+    return () => {
+      // garante retorno void
+      try {
+        api.off?.("select", onSelect);
+      } catch {
+        /* noop */
+      }
+    };
   }, [api]);
 
-  if (!open || images.length === 0) {
-    return null;
-  }
+  if (!open || images.length === 0) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {/* Acessibilidade */}
       <VisuallyHidden>
         <DialogTitle>{title || "Galeria de Imagens"}</DialogTitle>
-        <DialogDescription>Visualize as imagens do menu em detalhes.</DialogDescription>
+        <DialogDescription>
+          Visualize as imagens do menu em detalhes.
+        </DialogDescription>
       </VisuallyHidden>
-      
+
       <DialogContent
         className="
           bg-black/70 backdrop-blur-sm border border-white/10 p-2 sm:p-3
-          rounded-xl sm:rounded-2xl shadow-2xl 
-          
-          // **AJUSTE PRINCIPAL DE TAMANHO DO DIALOG:** Força a largura máxima
-          w-[95vw] max-w-[95vw] sm:max-w-[85vw] 
-          
-          // Centraliza verticalmente e horizontalmente na tela
+          rounded-xl sm:rounded-2xl shadow-2xl
+          w-[95vw] max-w-[95vw] sm:max-w-[85vw]
           flex flex-col justify-center items-center
         "
       >
@@ -88,42 +100,50 @@ export default function Lightbox({
           {/* Moldura / Contêiner da Imagem */}
           <div
             ref={containerRef}
-            className={`
-              relative mx-auto 
-              
-              // **AJUSTE DE LARGURA:** Ocupa a largura máxima do DialogContent
-              w-full 
-              max-w-[${maxW.sm}px] md:max-w-[${maxW.md}px]
-              
-              // Altura máxima baseada nas props
-              max-h-[${maxHsvh}svh] min-h-[300px]
-              
+            className="
+              relative mx-auto w-full
               ring-1 ring-white/10 rounded-lg overflow-hidden
-            `}
-            // REMOVIDO: o aspectRatio fixo para permitir flexibilidade de imagem
+              min-h-[300px]
+            "
+            // Usamos style para tamanhos dinâmicos (Tailwind não suporta interpolação)
+            style={{
+              // Em telas >= sm, use maxW.sm; em >= md, use maxW.md (aprox. via clamp)
+              maxWidth: `min(${maxW.md}px, 85vw)`,
+              // Limita altura pela viewport (svh)
+              maxHeight: `${maxHsvh}svh`,
+            }}
           >
             <Carousel opts={{ align: "center", loop: true }} setApi={setApi} className="w-full h-full">
               <CarouselContent className="w-full h-full">
-                {images.map((img, i) => (
-                  <CarouselItem key={`${img.src}-${i}`} className="basis-full h-full">
-                    {/* Contêiner do Next/Image para `fill` */}
-                    <div className="relative w-full h-full min-h-[300px]">
-                      <Image
-                        src={img.src}
-                        alt={img.alt ?? `Imagem ${i + 1}`}
-                        fill
-                        // **GARANTE CENTRALIZAÇÃO E VISIBILIDADE TOTAL**
-                        className="object-contain object-center" 
-                        onError={(e) => {
-                          console.error(`Erro ao carregar imagem: ${img.src}`);
-                          e.currentTarget.src = "https://via.placeholder.com/400x300"; // Fallback
-                        }}
-                        unoptimized={process.env.NODE_ENV !== "production"}
-                        priority={i === startIndex}
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
+                {images.map((img, i) => {
+                  const showFallback = fallback[i];
+                  return (
+                    <CarouselItem key={`${img.src}-${i}`} className="basis-full h-full">
+                      <div className="relative w-full h-full min-h-[300px]">
+                        {showFallback ? (
+                          // Fallback simples quando a imagem falha
+                          <div className="flex h-full w-full items-center justify-center bg-neutral-900/60 text-white text-sm">
+                            Não foi possível carregar a imagem.
+                          </div>
+                        ) : (
+                          <Image
+                            src={img.src}
+                            alt={img.alt ?? `Imagem ${i + 1}`}
+                            fill
+                            className="object-contain object-center"
+                            onError={() =>
+                              setFallback((f) => ({ ...f, [i]: true }))
+                            }
+                            // Em dev, manter unoptimized ajuda no hot reload de imagens
+                            unoptimized={process.env.NODE_ENV !== "production"}
+                            priority={i === safeStart}
+                            sizes="(min-width: 768px) 85vw, 95vw"
+                          />
+                        )}
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
 
               {/* Botões do Carrossel */}
@@ -149,7 +169,6 @@ export default function Lightbox({
             <div className="text-xs sm:text-sm opacity-85">
               {title ? <span className="font-semibold">{title}</span> : null}
               {title ? " · " : null}
-              {/* O valor de `current` começa em 0, por isso o + 1 */}
               {current + 1} / {images.length}
             </div>
 

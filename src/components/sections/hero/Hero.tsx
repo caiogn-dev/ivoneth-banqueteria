@@ -21,7 +21,7 @@ export default function Hero() {
       aria-label="Seção inicial"
     >
       <div className="absolute inset-0">
-        <Image src="/hero.jpg" alt="" fill priority className="object-cover" sizes="100vw" />
+        <Image src="/hero.JPG" alt="" fill priority className="object-cover" sizes="100vw" />
         <div className="absolute inset-0 bg-black/50 sm:bg-black/40" aria-hidden />
       </div>
 

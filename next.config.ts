@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     // liste explicitamente os 'quality' que você usa no projeto
     qualities: [60, 65, 70, 75, 80, 85],
   },
+  
 };
 
 export default nextConfig;

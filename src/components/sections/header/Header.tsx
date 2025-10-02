@@ -73,7 +73,7 @@ export default function Header() {
         <div className="md:hidden flex items-center"> 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Abrir menu" className="rounded-full">
+              <Button variant="brand" size="icon" aria-label="Abrir menu" className="rounded-full">
                 <MenuIcon className="h-6 w-6" />
               </Button>
             </SheetTrigger>
