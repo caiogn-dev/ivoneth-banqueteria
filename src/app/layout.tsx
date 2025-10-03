@@ -2,6 +2,7 @@ import "./globals.css";
 import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
 import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
+import GoogleTagManager from "@/components/core/GoogleTagManager";
 
 // ✅ Ajuste para seu domínio real
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR">
      <body className="min-h-screen bg-white scroll-smooth">
+        <GoogleTagManager />
         <JsonLd />
         {children}
         <FloatingWhatsappButton /> {/* ✅ Adicione o botão aqui */}
