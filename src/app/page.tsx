@@ -1,3 +1,6 @@
+export const dynamic = "error";
+export const revalidate = false;
+
 // app/page.tsx
 import Header from "@/components/sections/header/Header";
 import Footer from "@/components/sections/footer/Footer";
@@ -29,8 +32,8 @@ export default function Home() {
         <Proofs />
         <Gallery />
         <FAQ />
-        <LeadForm />
         <FinalCTA />
+        <LeadForm />
       </main>
       <Footer />
     </>

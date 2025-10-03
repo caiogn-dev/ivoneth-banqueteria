@@ -1,6 +1,5 @@
 // src/components/sections/header/Header.tsx
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -73,7 +72,7 @@ export default function Header() {
         <div className="md:hidden flex items-center"> 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Abrir menu" className="rounded-full">
+              <Button variant="brand" size="icon" aria-label="Abrir menu" className="rounded-full">
                 <MenuIcon className="h-6 w-6" />
               </Button>
             </SheetTrigger>

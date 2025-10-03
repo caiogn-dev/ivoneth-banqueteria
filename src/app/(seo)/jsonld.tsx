@@ -3,7 +3,7 @@ import React from "react";
 export default function JsonLd() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "Caterer", // Banqueteria / Buffet
+    "@type": "Caterer",
     name: "Ivoneth Banqueteria",
     url: "https://www.ivonethbanqueteria.com.br",
     logo: "https://www.ivonethbanqueteria.com.br/icon.png",
@@ -25,17 +25,11 @@ export default function JsonLd() {
       "https://www.facebook.com/seu-perfil",
       "https://www.linkedin.com/company/seu-perfil",
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "120",
-    },
   };
 
   return (
     <script
       type="application/ld+json"
-      // @ts-expect-error // Correção para ESLint/TS
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

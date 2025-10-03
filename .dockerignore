@@ -1,0 +1,22 @@
+# dependencies (host)
+node_modules
+npm-debug.log
+yarn.lock # (optional) keep only the lockfile you actually use
+pnpm-lock.yaml
+
+# next.js build output
+.next
+out
+
+# tests & editor
+coverage
+.vscode
+.idea
+
+# vcs
+.git
+.gitignore
+
+# runtime junk
+.DS_Store
+
