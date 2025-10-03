@@ -1,6 +1,4 @@
 // src/components/sections/FAQ/FAQ.tsx
-"use client";
-
 import {
   Accordion,
   AccordionContent,

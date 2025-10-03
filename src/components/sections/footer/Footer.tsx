@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Marca + descrição */}
           <div>
             <div className="flex items-center gap-3">
-              <Image src="/logo.svg" alt="Ivoneth Banqueteria" width={36} height={36} />
+              <Image src="/icon.png" alt="Ivoneth Banqueteria" width={36} height={36} />
               <span className="font-semibold text-lg">Ivoneth Banqueteria</span>
             </div>
             <p className="mt-4 text-sm text-gray-600 leading-relaxed">
@@ -50,9 +50,9 @@ export default function Footer() {
             <h3 className="font-semibold text-gray-900">Contato</h3>
             <ul className="mt-3 space-y-2 text-sm">
               <li>Palmas - TO</li>
-              <li><a className="nav-link" href="tel:+550000000000">(00) 00000-0000</a></li>
-              <li><a className="nav-link" href="mailto:contato@ivonethbanqueteria.com.br">contato@ivonethbanqueteria.com.br</a></li>
-              <li><a className="nav-link" href="https://instagram.com/" target="_blank">Instagram</a></li>
+              <li><a className="nav-link" href="tel:+5563984251719">(63) 98425-1719</a></li>
+              <li><a className="nav-link" href="mailto:contato@ivonethbanqueteria.com.br">chef@ivonethbanqueteria.com.br</a></li>
+              <li><a className="nav-link" href="https://instagram.com/ivoneth_banqueteria.of" target="_blank">Instagram</a></li>
             </ul>
           </div>
         </div>

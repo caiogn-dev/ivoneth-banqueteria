@@ -34,12 +34,6 @@ const CATEGORIES: MenuCategory[] = [
       desc: "Uma seleção equilibrada de assados, frutas frescas e doces artesanais para energizar pausas em eventos corporativos.",
       images: Array(6).fill({ base: "/menu/coffee-1" }),
     },
-    {
-      id: "ilhas",
-      title: "Ilhas Gastronômicas",
-      desc: "Estações temáticas interativas, como risotos, massas ou culinária regional, preparadas ao vivo para seus convidados.",
-      images: Array(6).fill({ base: "/menu/almoco-1" }),
-    },
 ];
 
 const resolve = (base: string) => {
