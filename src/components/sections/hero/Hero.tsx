@@ -1,82 +1,100 @@
 // src/components/sections/hero/Hero.tsx
+
 import Image from "next/image";
 import Link from "next/link";
-import { Dancing_Script } from "next/font/google";
+import { Great_Vibes } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import Reveal from "@/components/core/Reveal";
-import { Star, Users } from "lucide-react"; // Importe os ícones
+import { Star, Users } from "lucide-react";
 
-const script = Dancing_Script({
+const vibes = Great_Vibes({
   subsets: ["latin"],
-  weight: ["700"],
+  weight: "400",
   display: "swap",
 });
 
 export default function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative w-full"
-      style={{ paddingTop: "calc(var(--header-h) + env(safe-area-inset-top, 0px))" }}
-      aria-label="Seção inicial"
-    >
-      <div className="absolute inset-0">
-        <Image src="/hero.JPG" alt="" fill priority className="object-cover" sizes="100vw" />
-        <div className="absolute inset-0 bg-black/50 sm:bg-black/40" aria-hidden />
+    <section id="hero" aria-label="Seção inicial" className="relative w-full min-h-[100svh] overflow-clip">
+      {/* BACKGROUND (cobre 100%) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <Image
+          src="/hero.JPG"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover scale-[1.04] brightness-[.78] contrast-[1.08] saturate-[.92]"
+        />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/82 via-black/64 to-black/84" />
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(130% 70% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.72) 100%)",
+          }}
+        />
+        <div aria-hidden className="absolute inset-0 bg-transparent supports-[backdrop-filter]:backdrop-blur-[1.5px]" />
       </div>
 
-      <div
-        className="relative z-10 flex items-center justify-center px-4 sm:px-6"
-        style={{ minHeight: "calc(100svh - var(--header-h) - env(safe-area-inset-top, 0px))" }}
-      >
-        <div className="w-full max-w-3xl text-center">
+      {/* CONTENT */}
+      <div className="relative z-10 grid min-h-[100svh] place-content-center px-4 sm:px-6 pt-[calc(var(--header-h)+env(safe-area-inset-top,0px))] pb-16 text-center">
+        <div className="w-full max-w-[72ch] mx-auto">
+          {/* H1 */}
           <Reveal>
-            <h1 className="text-white leading-tight tracking-tight select-none">
+          <h1
+            className="text-white select-none drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
+            style={{ fontSize: "clamp(2rem,5vw,3.3rem)", lineHeight: 1.12, letterSpacing: "-0.015em" }}
+          >
+            <span className="font-extrabold">
               <span
-                className={`${script.className} block font-bold`}
-                style={{ fontSize: "clamp(2.2rem, 6vw, 4.5rem)" }}
+                className="inline-block align-baseline"
+                style={{ fontSize: "0.92em" }} // ↓ diminui só o trecho “Buffet e Coffee Break…”
               >
-                Buffet Premium
+                Buffet e Coffee Break para eventos corporativos com{" "}
               </span>
               <span
-                className="block font-extrabold mt-2"
-                style={{ fontSize: "clamp(1.4rem, 4.5vw, 2.5rem)" }}
+                className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
+                style={{ fontSize: "2.06em" }} // destaque maior na cursiva
               >
-                para eventos corporativos e sociais
+                sofisticação artesanal
               </span>
-            </h1>
+              
+            </span>
+          </h1>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          {/* H2 (enxuto) */}
+          <Reveal delay={0.08}>
             <p
-              className="mt-5 text-white/85"
-              style={{ fontSize: "clamp(0.95rem, 2.4vw, 1.125rem)" }}
+              className="mt-6 text-white/95 font-medium drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)]"
+              style={{ fontSize: "clamp(1rem,2.2vw,1.18rem)", lineHeight: 1.55 }}
             >
-              Equipe completa, montagem no local e cardápio sob medida — com pontualidade garantida.
+              Atendemos demandas específicas com equipe completa, pontualidade e cardápio sob medida no seu endereço.
             </p>
           </Reveal>
-          
-          {/* ✅ NOVO BADGE DE PROVA SOCIAL ADICIONADO AQUI */}
-          <Reveal delay={0.2}>
-            <div className="mt-8 inline-flex items-center justify-center gap-6 rounded-full bg-white/10 px-6 py-3 text-white backdrop-blur-sm">
-                <div className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-yellow-400" fill="currentColor" />
-                    <span className="font-medium text-sm">4.9 de 5 estrelas</span>
-                </div>
-                <div className="h-6 w-px bg-white/20"></div>
-                <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-rose-300" />
-                    <span className="font-medium text-sm">+1000 eventos realizados</span>
-                </div>
+
+          {/* Prova social */}
+          <Reveal delay={0.16}>
+            <div className="mt-7 inline-flex items-center justify-center gap-6 rounded-full bg-white/10 px-6 py-3 text-white backdrop-blur-sm ring-1 ring-white/15">
+              <div className="flex items-center gap-2">
+                <Star className="h-5 w-5 text-yellow-400" fill="currentColor" />
+                <span className="font-medium text-sm">4,9 de 5 estrelas</span>
+              </div>
+              <div className="h-6 w-px bg-white/20" />
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-rose-300" />
+                <span className="font-medium text-sm">+1000 eventos realizados</span>
+              </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.3}>
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* CTAs (mesmos componentes) */}
+          <Reveal delay={0.24}>
+            <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button asChild size="lg" variant="brand" className="w-full sm:w-auto">
-                <Link href="#form" aria-label="Solicitar orçamento">
-                  Solicitar orçamento
-                </Link>
+                <Link href="#form" aria-label="Solicitar orçamento">Solicitar orçamento</Link>
               </Button>
               <Button
                 asChild
@@ -84,9 +102,7 @@ export default function Hero() {
                 variant="outline"
                 className="w-full sm:w-auto bg-white text-[color:var(--brand-ink)] border-white hover:bg-white/90"
               >
-                <Link href="#menu" aria-label="Ver opções de cardápio">
-                  Ver opções de cardápio
-                </Link>
+                <Link href="#menu" aria-label="Ver opções de cardápio">Ver opções de cardápio</Link>
               </Button>
             </div>
           </Reveal>
