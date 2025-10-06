@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Reveal from "@/components/core/Reveal";
 import { Star, Users } from "lucide-react";
 // ✅ import estático: gera blurDataURL automático e cacheia melhor
-import hero from "@/public/hero.avif";
+import hero from "../../../../public/hero.avif";
 
 const vibes = Great_Vibes({
   subsets: ["latin"],
