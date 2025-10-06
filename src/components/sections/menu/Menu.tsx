@@ -16,33 +16,55 @@ type MenuCategory = {
 };
 
 const CATEGORIES: MenuCategory[] = [
-    {
-      id: "coqueteis",
-      title: "Coquetéis",
-      desc: "Canapés finos, finger foods e mini porções que encantam pela apresentação e sabor, perfeitos para eventos dinâmicos.",
-      images: Array(6).fill({ base: "/menu/coqueteis-1" }),
-    },
-    {
-      id: "almoco-jantar",
-      title: "Almoço e Jantar",
-      desc: "Pratos principais e acompanhamentos que formam um banquete completo, com opções que vão do clássico ao contemporâneo.",
-      images: Array(6).fill({ base: "/menu/almoco-1" }),
-    },
-    {
-      id: "coffee",
-      title: "Coffee Break",
-      desc: "Uma seleção equilibrada de assados, frutas frescas e doces artesanais para energizar pausas em eventos corporativos.",
-      images: Array(6).fill({ base: "/menu/coffee-1" }),
-    },
+  {
+    id: "coqueteis",
+    title: "Coquetéis",
+    desc: "Canapés finos, finger foods e mini porções que encantam pela apresentação e sabor, perfeitos para eventos dinâmicos.",
+    // pode manter o -1 como “base”; o resolve cuidará de trocar para -1..-6
+    images: Array(6).fill({ base: "/menu/coqueteis-1" }),
+  },
+  {
+    id: "almoco-jantar",
+    title: "Almoço e Jantar",
+    desc: "Pratos principais e acompanhamentos que formam um banquete completo, com opções que vão do clássico ao contemporâneo.",
+    images: Array(6).fill({ base: "/menu/almoco-1" }),
+  },
+  {
+    id: "coffee",
+    title: "Coffee Break",
+    desc: "Uma seleção equilibrada de assados, frutas frescas e doces artesanais para energizar pausas em eventos corporativos.",
+    images: Array(6).fill({ base: "/menu/coffee-1" }),
+  },
 ];
 
-const resolve = (base: string) => {
-  return base.endsWith(".avif") || base.endsWith(".webp") || base.endsWith(".jpg") || base.endsWith(".png")
-    ? base
-    : `${base}.avif`;
+/**
+ * resolve: recebe a base (ex.: "/menu/coqueteis-1") e o índice da galeria (0..5)
+ * - força o sufixo numérico para -1..-6 conforme o índice
+ * - usa .avif na primeira imagem (i=0) e .JPEG nas demais (i=1..5)
+ * - se já houver extensão válida, mantém (não reescreve)
+ */
+const resolve = (base: string, i: number) => {
+  // se já veio com extensão, respeita
+  if (/\.(avif|webp|jpe?g|png)$/i.test(base)) return base;
+
+  const n = i + 1; // 1..6
+  const ext = n === 1 ? ".avif" : ".JPEG";
+
+  // troca qualquer final -<num> por o número correto (1..6); se não tiver, adiciona
+  const withIndex = /-\d+$/.test(base) ? base.replace(/-\d+$/, `-${n}`) : `${base}-${n}`;
+
+  return `${withIndex}${ext}`;
 };
 
-function CategoryGallery({ images, title, onOpenAt }: { images: MenuImage[]; title: string; onOpenAt: (i: number) => void; }) {
+function CategoryGallery({
+  images,
+  title,
+  onOpenAt,
+}: {
+  images: MenuImage[];
+  title: string;
+  onOpenAt: (i: number) => void;
+}) {
   return (
     <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
       {images.slice(0, 6).map((img, i) => (
@@ -54,7 +76,7 @@ function CategoryGallery({ images, title, onOpenAt }: { images: MenuImage[]; tit
           aria-label={`Abrir ${title} imagem ${i + 1}`}
         >
           <Image
-            src={resolve(img.base)}
+            src={resolve(img.base, i)}
             alt={img.alt ?? `${title} imagem ${i + 1}`}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -73,28 +95,24 @@ function Category({ id, title, desc, images }: MenuCategory) {
   const [start, setStart] = useState(0);
 
   const lbImages: LightboxImage[] = images.slice(0, 6).map((img, i) => ({
-    src: resolve(img.base),
+    src: resolve(img.base, i),
     alt: img.alt ?? `${title} imagem ${i + 1}`,
   }));
 
   return (
-    // ✅ AJUSTE 1: Card se torna um container flexível em coluna
-    <div id={id} className="flex h-full w-full flex-col rounded-2xl border bg-white p-6 sm:p-8 shadow-sm transition-shadow hover:shadow-xl scroll-mt-20">
-      
-      {/* Bloco de texto que pode crescer */}
+    <div
+      id={id}
+      className="flex h-full w-full flex-col rounded-2xl border bg-white p-6 sm:p-8 shadow-sm transition-shadow hover:shadow-xl scroll-mt-20"
+    >
       <div className="flex-grow">
         <Reveal>
           <h3 className="text-center text-2xl sm:text-3xl font-bold text-gray-900 select-none">{title}</h3>
         </Reveal>
         <Reveal delay={0.05}>
-          {/* ✅ AJUSTE 2: Altura mínima para o parágrafo para estabilizar o layout */}
-          <p className="mt-2 text-center text-gray-600 max-w-md mx-auto min-h-[4.5rem]">
-            {desc}
-          </p>
+          <p className="mt-2 text-center text-gray-600 max-w-md mx-auto min-h-[4.5rem]">{desc}</p>
         </Reveal>
       </div>
 
-      {/* Galeria empurrada para o final */}
       <Reveal delay={0.1}>
         <CategoryGallery
           title={title}
@@ -124,22 +142,23 @@ export default function Menu() {
     <section id="menu" className="section section-anchor bg-rose-50/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-3xl mx-auto">
-            <Reveal>
+          <Reveal>
             <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 select-none">
-                Conheça nosso <span className="text-[color:var(--brand-from)]">menu</span>
+              Conheça nosso <span className="text-[color:var(--brand-from)]">menu</span>
             </h2>
-            </Reveal>
-            <Reveal delay={0.06}>
+          </Reveal>
+          <Reveal delay={0.06}>
             <p className="mt-4 text-lg text-gray-600">
-                Selecione o formato ideal para o seu evento. Personalizamos combinações e porções conforme o número de convidados.
+              Selecione o formato ideal para o seu evento. Personalizamos combinações e porções conforme o número de
+              convidados.
             </p>
-            </Reveal>
+          </Reveal>
         </div>
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {CATEGORIES.map((c, i) => (
             <Reveal key={c.id} delay={0.15 + i * 0.1}>
-                <Category {...c} />
+              <Category {...c} />
             </Reveal>
           ))}
         </div>
