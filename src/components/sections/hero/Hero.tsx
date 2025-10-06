@@ -1,5 +1,4 @@
 // src/components/sections/hero/Hero.tsx
-
 import Image from "next/image";
 import Link from "next/link";
 import { Great_Vibes } from "next/font/google";
@@ -15,16 +14,21 @@ const vibes = Great_Vibes({
 
 export default function Hero() {
   return (
-    <section id="hero" aria-label="Seção inicial" className="relative w-full min-h-[100svh] overflow-clip">
-      {/* BACKGROUND (cobre 100%) */}
+    <section
+      id="hero"
+      aria-label="Seção inicial"
+      className="relative w-full min-h-[100svh] overflow-clip"
+    >
+      {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none">
         <Image
-          src="/hero.JPG"
+          src="/hero.avif" // ✅ avif mais leve
           alt="Ivoneth Banqueteria — luxo como experiência"
           fill
           priority
+          fetchPriority="high"
           placeholder="blur"
-          blurDataURL="data:image/png;base64,..." // tiny blur
+          blurDataURL="data:image/png;base64,..." // TODO: troque por um blur minúsculo real
           sizes="100vw"
           className="object-cover"
         />
@@ -37,7 +41,10 @@ export default function Hero() {
               "radial-gradient(130% 70% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.72) 100%)",
           }}
         />
-        <div aria-hidden className="absolute inset-0 bg-transparent supports-[backdrop-filter]:backdrop-blur-[1.5px]" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-transparent supports-[backdrop-filter]:backdrop-blur-[1.5px]"
+        />
       </div>
 
       {/* CONTENT */}
@@ -45,29 +52,25 @@ export default function Hero() {
         <div className="w-full max-w-[72ch] mx-auto">
           {/* H1 */}
           <Reveal>
-          <h1
-            className="text-white select-none drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
-            style={{ fontSize: "clamp(2rem,5vw,3.3rem)", lineHeight: 1.12, letterSpacing: "-0.015em" }}
-          >
-            <span className="font-extrabold">
-              <span
-                className="inline-block align-baseline"
-                style={{ fontSize: "0.92em" }} // ↓ diminui só o trecho “Buffet e Coffee Break…”
-              >
-                Buffet e Coffee Break para eventos corporativos com{" "}
+            <h1
+              className="text-white select-none drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
+              style={{ fontSize: "clamp(2rem,5vw,3.3rem)", lineHeight: 1.12, letterSpacing: "-0.015em" }}
+            >
+              <span className="font-extrabold">
+                <span className="inline-block align-baseline" style={{ fontSize: "0.92em" }}>
+                  Buffet e Coffee Break para eventos corporativos com{" "}
+                </span>
+                <span
+                  className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
+                  style={{ fontSize: "1.86em" }}
+                >
+                  sofisticação artesanal
+                </span>
               </span>
-              <span
-                className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
-                style={{ fontSize: "1.86em" }} // destaque maior na cursiva
-              >
-                sofisticação artesanal
-              </span>
-              
-            </span>
-          </h1>
+            </h1>
           </Reveal>
 
-          {/* H2 (enxuto) */}
+          {/* H2 */}
           <Reveal delay={0.08}>
             <p
               className="mt-6 text-white/95 font-medium drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)]"
@@ -92,11 +95,13 @@ export default function Hero() {
             </div>
           </Reveal>
 
-          {/* CTAs (mesmos componentes) */}
+          {/* CTAs */}
           <Reveal delay={0.24}>
             <div className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button asChild size="lg" variant="brand" className="w-full sm:w-auto">
-                <Link href="#form" aria-label="Solicitar orçamento">Solicitar orçamento</Link>
+                <Link href="#form" aria-label="Solicitar orçamento">
+                  Solicitar orçamento
+                </Link>
               </Button>
               <Button
                 asChild
@@ -104,7 +109,9 @@ export default function Hero() {
                 variant="outline"
                 className="w-full sm:w-auto bg-white text-[color:var(--brand-ink)] border-white hover:bg-white/90"
               >
-                <Link href="#menu" aria-label="Ver opções de cardápio">Ver opções de cardápio</Link>
+                <Link href="#menu" aria-label="Ver opções de cardápio">
+                  Ver opções de cardápio
+                </Link>
               </Button>
             </div>
           </Reveal>

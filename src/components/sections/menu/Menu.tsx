@@ -1,5 +1,6 @@
 // src/components/sections/menu/Menu.tsx
 "use client";
+
 import NextDynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
@@ -16,41 +17,41 @@ type MenuCategory = {
   images: MenuImage[];
 };
 
+// Você pode deixar a base sem índice; o resolve cuida de montar -1..-6 .avif
 const CATEGORIES: MenuCategory[] = [
   {
     id: "coqueteis",
     title: "Coquetéis",
     desc: "Canapés finos, finger foods e mini porções que encantam pela apresentação e sabor, perfeitos para eventos dinâmicos.",
-    // pode manter o -1 como “base”; o resolve cuidará de trocar para -1..-6
-    images: Array(6).fill({ base: "/menu/coqueteis-1" }),
+    images: Array(6).fill({ base: "/menu/coqueteis" }),
   },
   {
     id: "almoco-jantar",
     title: "Almoço e Jantar",
     desc: "Pratos principais e acompanhamentos que formam um banquete completo, com opções que vão do clássico ao contemporâneo.",
-    images: Array(6).fill({ base: "/menu/almoco-1" }),
+    images: Array(6).fill({ base: "/menu/almoco" }),
   },
   {
     id: "coffee",
     title: "Coffee Break",
     desc: "Uma seleção equilibrada de assados, frutas frescas e doces artesanais para energizar pausas em eventos corporativos.",
-    images: Array(6).fill({ base: "/menu/coffee-1" }),
+    images: Array(6).fill({ base: "/menu/coffee" }),
   },
 ];
 
 /**
- * resolve: recebe a base (ex.: "/menu/coqueteis-1") e o índice da galeria (0..5)
- * - força o sufixo numérico para -1..-6 conforme o índice
- * - usa .avif na primeira imagem (i=0) e .JPEG nas demais (i=1..5)
- * - se já houver extensão válida, mantém (não reescreve)
+ * resolve: força usar -1..-6 e extensão .avif sempre
+ * Aceita base com ou sem índice e com/sem extensão.
+ * Ex.: "/menu/coqueteis" -> "/menu/coqueteis-3.avif" (para i=2)
+ *      "/menu/coqueteis-1.jpeg" -> "/menu/coqueteis-3.avif"
  */
 const resolve = (base: string, i: number) => {
-  if (/\.(avif|webp|jpe?g|png)$/i.test(base)) return base;
-
-  const n = i + 1;                   // 1..6
-  const ext = n === 1 ? ".avif" : ".jpeg";
-  const withIndex = /-\d+$/.test(base) ? base.replace(/-\d+$/, `-${n}`) : `${base}-${n}`;
-  return `${withIndex}${ext}`;
+  const n = i + 1; // 1..6
+  const withoutExt = base.replace(/\.(avif|webp|jpe?g|png)$/i, "");
+  const withIndex = /-\d+$/.test(withoutExt)
+    ? withoutExt.replace(/-\d+$/, `-${n}`)
+    : `${withoutExt}-${n}`;
+  return `${withIndex}.avif`;
 };
 
 function CategoryGallery({
@@ -78,7 +79,7 @@ function CategoryGallery({
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 25vw, (max-width: 1024px) 15vw, 10vw"
-            loading='lazy'
+            loading="lazy"
             unoptimized={process.env.NODE_ENV !== "production"}
           />
         </button>
