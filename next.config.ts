@@ -1,13 +1,58 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  compress: true,
+  poweredByHeader: false,
+
+  // Otimização de imagens
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.pexels.com" }],
-    formats: ['image/avif', 'image/webp'],
-    // liste explicitamente os 'quality' que você usa no projeto
-    qualities: [60, 65, 70, 75, 80, 85],
+    // Use formatos modernos sempre que possível
+    formats: ["image/avif", "image/webp"],
+
+    // DICA: se quiser controlar tamanhos gerados (opcional)
+    // deviceSizes: [360, 640, 768, 1024, 1280, 1536],
+    // imageSizes: [16, 24, 32, 48, 64, 96, 128, 256],
   },
-  
+
+  // Headers úteis de cache e segurança (leves)
+  async headers() {
+    return [
+      // Cache agressivo para imagens estáticas
+      {
+        source: "/:all*(avif|webp|png|jpg|jpeg|gif|svg)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      // Cache p/ fontes (se usar local ou @next/font com self-host)
+      {
+        source: "/:all*(woff|woff2|ttf|otf)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
+  },
+
+  // Redireciona para o domínio canônico (opcional, mas recomendado)
+  async redirects() {
+    return [
+      // Se quiser consolidar em SEM www:
+      { source: "/:path*", has: [{ type: "host", value: "www.ivonethbanqueteria.com.br" }], destination: "https://ivonethbanqueteria.com.br/:path*", permanent: true },
+      // (Se preferir COM www, inverta o destino)
+    ];
+  },
+
+  // Reduz JS enviado quando importar libs grandes (ex.: lucide, framer-motion)
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
+
+  // Se algum warning do ESLint estiver travando build em prod, pode usar:
+  // eslint: { ignoreDuringBuilds: true },
+  // typescript: { ignoreBuildErrors: false },
 };
 
 export default nextConfig;

@@ -1,10 +1,11 @@
+// src/app/layout.tsx
 import "./globals.css";
 import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
 import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
 import GoogleTagManager from "@/components/core/GoogleTagManager";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
 
@@ -30,7 +31,6 @@ export const metadata: Metadata = {
     canonical: "/",
     languages: {
       "pt-BR": "/",
-      // "en-US": "/en", // habilite quando tiver versão em inglês
     },
   },
   openGraph: {
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
       "Experiências gastronômicas que encantam olhos e paladar. ISO 9001 e acervo premium.",
     images: [
       {
-        url: "/og/og-ivoneth.jpg", // coloque este arquivo em /public/og/og-ivoneth.jpg (1200x630)
+        url: "/og/og-ivoneth.jpg",
         width: 1200,
         height: 630,
         alt: "Mesa de casamento Ivoneth Banqueteria",
@@ -69,8 +69,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Se usar Search Console, preencha aqui:
-    google: "", // ex.: "abcdefg123456"
+    google: "",
   },
   category: "eventos",
   authors: [{ name: "Ivoneth Banqueteria" }],
@@ -81,14 +80,29 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-     <body className="min-h-screen bg-white scroll-smooth">
+      <head>
+        {/* Acelera fontes do Google (evita travar FCP/LCP no mobile) */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Se usa Pexels (remotePatterns no next.config.ts), preconnect opcional: */}
+        <link rel="preconnect" href="https://images.pexels.com" />
+      </head>
+      <body className="min-h-screen bg-white scroll-smooth">
+        {/* Métricas em Prod */}
         <Analytics />
         <SpeedInsights />
+
+        {/* Scripts/Tags */}
         <GoogleTagManager />
+
+        {/* SEO estruturado */}
         <JsonLd />
+
+        {/* App */}
         {children}
-        <FloatingWhatsappButton /> {/* ✅ Adicione o botão aqui */}
-     </body>
+
+        {/* UI flutuante */}
+        <FloatingWhatsappButton />
+      </body>
     </html>
   );
 }
