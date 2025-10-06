@@ -56,7 +56,7 @@ export default function Hero() {
               </span>
               <span
                 className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
-                style={{ fontSize: "2.06em" }} // destaque maior na cursiva
+                style={{ fontSize: "1.86em" }} // destaque maior na cursiva
               >
                 sofisticação artesanal
               </span>
