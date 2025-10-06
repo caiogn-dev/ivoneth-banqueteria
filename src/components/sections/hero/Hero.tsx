@@ -5,8 +5,6 @@ import { Great_Vibes } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import Reveal from "@/components/core/Reveal";
 import { Star, Users } from "lucide-react";
-// ✅ import estático: gera blurDataURL automático e cacheia melhor
-import hero from "../../../../public/hero.avif";
 
 const vibes = Great_Vibes({
   subsets: ["latin"],
@@ -24,18 +22,18 @@ export default function Hero() {
       {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none">
         <Image
-          src={hero}                     // usa import estático
+          src="/hero.avif"                 // string path evita o Sharp (blurDataURL) no build
           alt="Ivoneth Banqueteria — luxo como experiência"
           fill
           priority
           fetchPriority="high"
-          placeholder="blur"             // blur automático do Next
+          placeholder="empty"               // sem blur gerado por Sharp (mais seguro e rápido)
           sizes="100vw"
           className="object-cover"
         />
         {/* Gradiente principal barato */}
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
-        {/* Radial suave (um pouco mais leve que o anterior) */}
+        {/* Radial suave (menos pesado) */}
         <div
           aria-hidden
           className="absolute inset-0"
@@ -57,7 +55,6 @@ export default function Hero() {
           {/* H1 */}
           <Reveal>
             <h1
-              // sombra mais leve no mobile; mais forte ≥ sm
               className="text-white select-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
               style={{ fontSize: "clamp(2rem,5vw,3.3rem)", lineHeight: 1.12, letterSpacing: "-0.015em" }}
             >
