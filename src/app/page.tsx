@@ -1,29 +1,35 @@
-export const dynamic = "error";
-export const revalidate = false;
-
 // app/page.tsx
+export const dynamic = "error";
+export const revalidate = 3600;
+
+import NextDynamic from "next/dynamic";
 import Header from "@/components/sections/header/Header";
 import Footer from "@/components/sections/footer/Footer";
 
-// Seções na ordem correta do briefing
+// Hero fica síncrona (LCP normalmente está aqui)
 import Hero from "@/components/sections/hero/Hero";
-import ComoFunciona from "@/components/sections/comofunciona/ComoFunciona";
-import Services from "@/components/sections/services/Services";
-import Menu from "@/components/sections/menu/Menu";
-import Differentials from "@/components/sections/differentials/Differentials";
-import Proofs from "@/components/sections/proofs/Proofs";
-import Chef from "@/components/sections/chef/Chef";
-import Gallery from "@/components/sections/gallery/Gallery"; // Renomeado e agora em uso
-import FAQ from "@/components/sections/FAQ/FAQ";
-import LeadForm from "@/components/sections/LeadForm/LeadForm";
-import FinalCTA from "@/components/sections/FinalCTA/FinalCTA";
+
+// Seções abaixo da dobra com dynamic (SSR mantido; hydration adiada)
+const ComoFunciona   = NextDynamic(() => import("@/components/sections/comofunciona/ComoFunciona"));
+const Services       = NextDynamic(() => import("@/components/sections/services/Services"));
+const Menu           = NextDynamic(() => import("@/components/sections/menu/Menu"));
+const Differentials  = NextDynamic(() => import("@/components/sections/differentials/Differentials"));
+const Proofs         = NextDynamic(() => import("@/components/sections/proofs/Proofs"));
+const Chef           = NextDynamic(() => import("@/components/sections/chef/Chef"));
+const Gallery        = NextDynamic(() => import("@/components/sections/gallery/Gallery"));
+const FAQ            = NextDynamic(() => import("@/components/sections/FAQ/FAQ"));
+const LeadForm       = NextDynamic(() => import("@/components/sections/LeadForm/LeadForm"));
+const FinalCTA       = NextDynamic(() => import("@/components/sections/FinalCTA/FinalCTA"));
 
 export default function Home() {
   return (
     <>
       <Header />
       <main>
+        {/* 🔵 A dobra: pinte a Hero cedo — use priority/sizes/placeholder dentro do componente */}
         <Hero />
+
+        {/* 🔶 Abaixo da dobra: carregam em paralelo, hidratam depois */}
         <ComoFunciona />
         <Chef />
         <Services />
