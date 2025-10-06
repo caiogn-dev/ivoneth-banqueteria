@@ -3,8 +3,9 @@ import JsonLd from "./(seo)/jsonld";
 import type { Metadata } from "next";
 import FloatingWhatsappButton from "@/components/core/FloatingWhatsappButton";
 import GoogleTagManager from "@/components/core/GoogleTagManager";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
-// ✅ Ajuste para seu domínio real
 const SITE_URL = "https://www.ivonethbanqueteria.com.br";
 
 export const metadata: Metadata = {
@@ -81,6 +82,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR">
      <body className="min-h-screen bg-white scroll-smooth">
+        <Analytics />
+        <SpeedInsights />
         <GoogleTagManager />
         <JsonLd />
         {children}
