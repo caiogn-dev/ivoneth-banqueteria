@@ -1,4 +1,6 @@
+// src/components/sections/FinalCTA/FinalCTA.tsx
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function FinalCTA() {
   return (
@@ -7,26 +9,32 @@ export default function FinalCTA() {
       className="relative overflow-clip"
       aria-label="Chamada final para orçamento"
     >
-      {/* Vídeo de fundo */}
-      <div className="absolute inset-0 pointer-events-none">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          src="/services.mp4"
-          // opcional: troque pelo seu poster se tiver uma imagem estática
-          poster="/hero.avif"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden
+      {/* BACKGROUND estático e leve */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <Image
+          src="/hero.avif"
+          alt=""
+          fill
+          // evita baixar 1920px à toa; ajusta ao seu container real
+          sizes="(max-width: 1280px) 100vw, 1280px"
+          className="object-cover"
+          loading="lazy"
+          placeholder="empty"
+          priority={false}
         />
-        {/* Overlay para legibilidade */}
+        {/* Overlays para contraste/legibilidade (baratos) */}
         <div className="absolute inset-0 bg-black/40" aria-hidden />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/40" aria-hidden />
+        <div
+          className="absolute inset-0"
+          aria-hidden
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,.35), transparent 40%, rgba(0,0,0,.4))",
+          }}
+        />
       </div>
 
-      {/* Conteúdo */}
+      {/* CONTEÚDO */}
       <div className="relative z-10 grid min-h-[60svh] place-items-center">
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white drop-shadow-[0_3px_12px_rgba(0,0,0,0.7)]">

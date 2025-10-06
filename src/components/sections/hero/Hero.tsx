@@ -22,13 +22,18 @@ export default function Hero() {
       {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none">
         <Image
-          src="/hero.avif"                 // string path evita o Sharp (blurDataURL) no build
+          src="/hero.avif"
           alt="Ivoneth Banqueteria — luxo como experiência"
           fill
           priority
           fetchPriority="high"
-          placeholder="empty"               // sem blur gerado por Sharp (mais seguro e rápido)
-          sizes="100vw"
+          placeholder="empty"
+          // ⬇️ capamos a largura efetiva fora do mobile para 1280px
+          sizes="(max-width: 640px) 100vw,
+                (max-width: 768px) 100vw,
+                (max-width: 1024px) 100vw,
+                (max-width: 1280px) 100vw,
+                1280px"
           className="object-cover"
         />
         {/* Gradiente principal barato */}
