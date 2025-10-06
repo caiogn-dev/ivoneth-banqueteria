@@ -36,7 +36,6 @@ export default function Home() {
         <Menu />
         <Differentials />
         <Proofs />
-        <Gallery />
         <FAQ />
         <FinalCTA />
         <LeadForm />
