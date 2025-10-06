@@ -87,12 +87,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://images.pexels.com" />
       </head>
       <body className="min-h-screen bg-white scroll-smooth">
+        {/* Scripts/Tags */}
+        <GoogleTagManager />
         {/* Métricas em Prod */}
         <Analytics />
         <SpeedInsights />
-
-        {/* Scripts/Tags */}
-        <GoogleTagManager />
 
         {/* SEO estruturado */}
         <JsonLd />
