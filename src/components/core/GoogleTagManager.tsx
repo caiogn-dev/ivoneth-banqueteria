@@ -13,11 +13,8 @@ export default function GoogleTagManager() {
 
   return (
     <>
-      {/* 1. Snippet do <head> - Usando next/script */}
-      <Script
-        id="gtm-script"
-        strategy="afterInteractive" // Carrega após a página se tornar interativa
-      >
+      {/* Carrega o GTM quando a thread estiver livre (não trava TBT) */}
+      <Script id="gtm-script" strategy="lazyOnload">
         {`
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -27,14 +24,14 @@ export default function GoogleTagManager() {
         `}
       </Script>
 
-      {/* 2. Snippet do <body> (noscript) - Inserido diretamente */}
+      {/* Noscript do corpo (ok no App Router) */}
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
           height="0"
           width="0"
           style={{ display: "none", visibility: "hidden" }}
-        ></iframe>
+        />
       </noscript>
     </>
   );

@@ -13,7 +13,7 @@ export default function FinalCTA() {
           className="absolute inset-0 h-full w-full object-cover"
           src="/services.mp4"
           // opcional: troque pelo seu poster se tiver uma imagem estática
-          poster="/hero.JPG"
+          poster="/hero.avif"
           autoPlay
           muted
           loop
