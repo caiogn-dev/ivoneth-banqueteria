@@ -20,11 +20,13 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none">
         <Image
           src="/hero.JPG"
-          alt=""
+          alt="Ivoneth Banqueteria — luxo como experiência"
           fill
           priority
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,..." // tiny blur
           sizes="100vw"
-          className="object-cover scale-[1.04] brightness-[.78] contrast-[1.08] saturate-[.92]"
+          className="object-cover"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/82 via-black/64 to-black/84" />
         <div

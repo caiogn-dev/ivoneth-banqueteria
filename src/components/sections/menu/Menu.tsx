@@ -1,11 +1,11 @@
 // src/components/sections/menu/Menu.tsx
 "use client";
-
+import NextDynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import Reveal from "@/components/core/Reveal";
 import { Button } from "@/components/ui/button";
-import Lightbox, { type LightboxImage } from "@/components/core/LightBox";
+const Lightbox = NextDynamic(() => import("@/components/core/LightBox"), { ssr: false });
 
 type MenuImage = { base: string; alt?: string };
 type MenuCategory = {
@@ -44,15 +44,11 @@ const CATEGORIES: MenuCategory[] = [
  * - se já houver extensão válida, mantém (não reescreve)
  */
 const resolve = (base: string, i: number) => {
-  // se já veio com extensão, respeita
   if (/\.(avif|webp|jpe?g|png)$/i.test(base)) return base;
 
-  const n = i + 1; // 1..6
-  const ext = n === 1 ? ".avif" : ".JPEG";
-
-  // troca qualquer final -<num> por o número correto (1..6); se não tiver, adiciona
+  const n = i + 1;                   // 1..6
+  const ext = n === 1 ? ".avif" : ".jpeg";
   const withIndex = /-\d+$/.test(base) ? base.replace(/-\d+$/, `-${n}`) : `${base}-${n}`;
-
   return `${withIndex}${ext}`;
 };
 
@@ -81,7 +77,7 @@ function CategoryGallery({
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 25vw, (max-width: 1024px) 15vw, 10vw"
-            priority={i < 3}
+            loading='lazy'
             unoptimized={process.env.NODE_ENV !== "production"}
           />
         </button>
@@ -124,15 +120,17 @@ function Category({ id, title, desc, images }: MenuCategory) {
         />
       </Reveal>
 
-      <Lightbox
-        open={open}
-        onOpenChange={setOpen}
-        images={lbImages}
-        startIndex={start}
-        title={title}
-        maxW={{ sm: 700, md: 820 }}
-        maxHsvh={78}
-      />
+      {open && (
+        <Lightbox
+          open={open}
+          onOpenChange={setOpen}
+          images={lbImages}
+          startIndex={start}
+          title={title}
+          maxW={{ sm: 700, md: 820 }}
+          maxHsvh={78}
+        />
+      )}
     </div>
   );
 }
