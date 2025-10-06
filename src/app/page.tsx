@@ -1,6 +1,5 @@
 export const dynamic = "error";
-export const revalidate = false;
-
+export const revalidate = 3600;
 // app/page.tsx
 import Header from "@/components/sections/header/Header";
 import Footer from "@/components/sections/footer/Footer";
