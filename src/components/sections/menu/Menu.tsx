@@ -6,6 +6,7 @@ import { useState } from "react";
 import Reveal from "@/components/core/Reveal";
 import { Button } from "@/components/ui/button";
 const Lightbox = NextDynamic(() => import("@/components/core/LightBox"), { ssr: false });
+import type { LightboxImage } from "@/components/core/LightBox";
 
 type MenuImage = { base: string; alt?: string };
 type MenuCategory = {
