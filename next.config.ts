@@ -10,10 +10,8 @@ const nextConfig: NextConfig = {
   images: {
     // Use formatos modernos sempre que possível
     formats: ["image/avif", "image/webp"],
-
-    // DICA: se quiser controlar tamanhos gerados (opcional)
-    // deviceSizes: [360, 640, 768, 1024, 1280, 1536],
-    // imageSizes: [16, 24, 32, 48, 64, 96, 128, 256],
+    deviceSizes: [360, 414, 640, 768, 960, 1024, 1280, 1366, 1440, 1536],
+    imageSizes: [16, 24, 32, 48, 64, 96, 128, 256],
   },
 
   // Headers úteis de cache e segurança (leves)
