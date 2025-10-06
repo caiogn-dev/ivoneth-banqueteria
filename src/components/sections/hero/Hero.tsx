@@ -5,6 +5,8 @@ import { Great_Vibes } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import Reveal from "@/components/core/Reveal";
 import { Star, Users } from "lucide-react";
+// ✅ import estático: gera blurDataURL automático e cacheia melhor
+import hero from "@/public/hero.avif";
 
 const vibes = Great_Vibes({
   subsets: ["latin"],
@@ -22,28 +24,30 @@ export default function Hero() {
       {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none">
         <Image
-          src="/hero.avif" // ✅ avif mais leve
+          src={hero}                     // usa import estático
           alt="Ivoneth Banqueteria — luxo como experiência"
           fill
           priority
           fetchPriority="high"
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,..." // TODO: troque por um blur minúsculo real
+          placeholder="blur"             // blur automático do Next
           sizes="100vw"
           className="object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/82 via-black/64 to-black/84" />
+        {/* Gradiente principal barato */}
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
+        {/* Radial suave (um pouco mais leve que o anterior) */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(130% 70% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.72) 100%)",
+              "radial-gradient(115% 62% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.44) 68%, rgba(0,0,0,.64) 100%)",
           }}
         />
+        {/* Backdrop-blur só ≥ sm (mobile não paga esse custo) */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-transparent supports-[backdrop-filter]:backdrop-blur-[1.5px]"
+          className="absolute inset-0 bg-transparent sm:supports-[backdrop-filter]:backdrop-blur-[1.5px]"
         />
       </div>
 
@@ -53,7 +57,8 @@ export default function Hero() {
           {/* H1 */}
           <Reveal>
             <h1
-              className="text-white select-none drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
+              // sombra mais leve no mobile; mais forte ≥ sm
+              className="text-white select-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:drop-shadow-[0_4px_18px_rgba(0,0,0,0.9)]"
               style={{ fontSize: "clamp(2rem,5vw,3.3rem)", lineHeight: 1.12, letterSpacing: "-0.015em" }}
             >
               <span className="font-extrabold">
@@ -61,7 +66,7 @@ export default function Hero() {
                   Buffet e Coffee Break para eventos corporativos com{" "}
                 </span>
                 <span
-                  className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
+                  className={`${vibes.className} inline-block align-baseline whitespace-nowrap text-rose-200 sm:[text-shadow:0_2px_12px_rgba(0,0,0,0.45)]`}
                   style={{ fontSize: "1.86em" }}
                 >
                   sofisticação artesanal
@@ -73,7 +78,7 @@ export default function Hero() {
           {/* H2 */}
           <Reveal delay={0.08}>
             <p
-              className="mt-6 text-white/95 font-medium drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)]"
+              className="mt-6 text-white/95 font-medium drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)]"
               style={{ fontSize: "clamp(1rem,2.2vw,1.18rem)", lineHeight: 1.55 }}
             >
               Atendemos demandas específicas com equipe completa, pontualidade e cardápio sob medida no seu endereço.
