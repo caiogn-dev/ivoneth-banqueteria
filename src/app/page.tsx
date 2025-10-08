@@ -16,7 +16,6 @@ const Menu           = NextDynamic(() => import("@/components/sections/menu/Menu
 const Differentials  = NextDynamic(() => import("@/components/sections/differentials/Differentials"));
 const Proofs         = NextDynamic(() => import("@/components/sections/proofs/Proofs"));
 const Chef           = NextDynamic(() => import("@/components/sections/chef/Chef"));
-const Gallery        = NextDynamic(() => import("@/components/sections/gallery/Gallery"));
 const FAQ            = NextDynamic(() => import("@/components/sections/FAQ/FAQ"));
 const LeadForm       = NextDynamic(() => import("@/components/sections/LeadForm/LeadForm"));
 const FinalCTA       = NextDynamic(() => import("@/components/sections/FinalCTA/FinalCTA"));
