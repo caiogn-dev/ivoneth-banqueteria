@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 // Instale a biblioteca de ícones: npm install react-icons
 
 export default function FloatingWhatsappButton() {
-  const whatsappNumber = "5563000000000"; // ✅ MUDE AQUI para o seu número com código do país e DDD
+  const whatsappNumber = "5563984251719"; // ✅ MUDE AQUI para o seu número com código do país e DDD
   const message = "Olá! Gostaria de solicitar um orçamento.";
 
   return (

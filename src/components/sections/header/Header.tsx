@@ -2,13 +2,17 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { Allura } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Menu as MenuIcon } from "lucide-react";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"; // ✅ Importando os ícones de marca
 import React, { useState } from "react";
-
+export const allura = Allura({
+  weight: "400",
+  subsets: ["latin"],
+});
 const links: Array<[string, string]> = [
   ["Início", "#hero"],
   ["Como funciona", "#process"],
@@ -19,8 +23,8 @@ const links: Array<[string, string]> = [
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const whatsappNumber = "5563000000000"; // ✅ MUDE AQUI para o seu número
-  const instagramUrl = "https://www.instagram.com/seu-perfil"; // ✅ MUDE AQUI para seu perfil
+  const whatsappNumber = "5563984251719"; 
+  const instagramUrl = "https://www.instagram.com/ivoneth_banqueteria.of"; // ✅ MUDE AQUI para seu perfil
 
   return (
     <header
@@ -30,11 +34,11 @@ export default function Header() {
       <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 flex items-center justify-between gap-3">
         {/* Logo/Marca */}
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/icon.png" alt="Ivoneth Banqueteria" width={36} height={36} priority={true} />
-          <span className="text-lg font-serif font-bold text-gray-800 tracking-tight md:hidden lg:text-xl">
-            Ivoneth Banqueteria
-          </span>
-          <span className="sr-only">Ivoneth Banqueteria</span>
+         
+            <span className={`${allura.className} text-xl text-gray-800 tracking-tight`}>
+              Ivoneth Banqueteria
+            </span>
+          <span className="sr-only ">Ivoneth Banqueteria</span>
         </Link>
 
         {/* Desktop nav */}
