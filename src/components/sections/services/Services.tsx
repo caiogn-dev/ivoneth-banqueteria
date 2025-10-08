@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Coffee, Martini, UtensilsCrossed, Users, Briefcase, Building2, PartyPopper, Cake } from "lucide-react";
-
 export default function Services() {
   const items = [
     {
@@ -62,22 +61,23 @@ export default function Services() {
                     {item.title}
                   </h3>
                 </div>
+
               </div>
             ))}
           </div>
         </div>
-
         <div className="mt-10 sm:mt-14">
           <Button 
             variant="brand" 
             size="lg" 
             asChild 
             className="rounded-full shadow-md hover:shadow-lg"
-          >
+            >
             <a href="#menu">Ver opções de cardápio</a>
           </Button>
         </div>
       </div>
     </section>
   );
-}
+};
+
